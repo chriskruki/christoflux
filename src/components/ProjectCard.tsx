@@ -41,8 +41,8 @@ const ProjectCard = ({ project, index, onClick }: ProjectCardProps) => {
           : { opacity: 0, y: 50, scale: 0.9 }
       }
       transition={{
-        duration: 0.6,
-        delay: index * 0.1,
+        duration: 0.4,
+        delay: index * 0.04,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
       whileHover={{
@@ -73,7 +73,7 @@ const ProjectCard = ({ project, index, onClick }: ProjectCardProps) => {
               animate={
                 isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
               }
-              transition={{ delay: index * 0.1 + 0.8 }}
+              transition={{ delay: index * 0.04 + 0.3 }}
               className='absolute top-2 right-2 z-10 w-6 h-6 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/60 group-hover:text-white/80 group-hover:bg-white/20 transition-all duration-200'
             >
               <svg
@@ -96,8 +96,8 @@ const ProjectCard = ({ project, index, onClick }: ProjectCardProps) => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{
-              duration: 0.5,
-              delay: index * 0.1 + 0.2,
+              duration: 0.35,
+              delay: index * 0.04 + 0.08,
             }}
             className='relative w-full aspect-video overflow-hidden bg-gradient-to-br from-emerald-500/20 via-green-500/10 to-emerald-600/20'
           >
@@ -140,8 +140,8 @@ const ProjectCard = ({ project, index, onClick }: ProjectCardProps) => {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{
-                duration: 0.5,
-                delay: index * 0.1 + 0.3,
+                duration: 0.35,
+                delay: index * 0.04 + 0.12,
               }}
               className='text-xl font-semibold text-white/90 text-left group-hover:text-emerald-400 transition-colors duration-300 mb-2'
             >
@@ -153,8 +153,8 @@ const ProjectCard = ({ project, index, onClick }: ProjectCardProps) => {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{
-                duration: 0.5,
-                delay: index * 0.1 + 0.4,
+                duration: 0.35,
+                delay: index * 0.04 + 0.16,
               }}
               className='text-sm text-white/70 mb-4 line-clamp-2'
             >
@@ -167,8 +167,8 @@ const ProjectCard = ({ project, index, onClick }: ProjectCardProps) => {
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{
-                  duration: 0.5,
-                  delay: index * 0.1 + 0.5,
+                  duration: 0.35,
+                  delay: index * 0.04 + 0.2,
                 }}
                 className='flex flex-wrap gap-2'
               >

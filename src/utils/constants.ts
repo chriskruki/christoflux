@@ -70,8 +70,8 @@ export const HEADER = {
     BTN_WIDTH: 100,
   },
   SPRING: {
-    stiffness: 1000,
-    damping: 100,
+    stiffness: 120,
+    damping: 22,
     restDelta: 0.001,
   },
 } as const

@@ -10,16 +10,10 @@ import SkillsGrid from '@/components/SkillsGrid'
 import SocialButton from '@/components/SocialButton'
 import TypingCycle from '@/components/TypingCycle'
 import { useSectionDetection } from '@/hooks/useSectionDetection'
-import { HEADER } from '@/utils/constants'
 import { SOCIALS, THINGS_I_LIKE } from '@/utils/copy'
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from 'framer-motion'
+import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
 export default function Home() {
@@ -39,15 +33,11 @@ export default function Home() {
   // Media query
   const isMobile = useMemo(() => screenWidth < 768, [screenWidth])
 
-  // Image animation - similar to name animation
+  // Scroll-driven image transforms (no springs — direct scroll tracking for perf)
   const imageScale = useTransform(scrollY, [0, 1000], [1, 0.6])
   const imageY = useTransform(scrollY, [0, 1000], [isMobile ? -60 : 0, -100])
   const imageOpacity = useTransform(scrollY, [0, 800], [1, 0])
-
-  // Add spring physics
-  const imageScaleSpring = useSpring(imageScale, HEADER.SPRING)
-  const imageYSpring = useSpring(imageY, HEADER.SPRING)
-  const imageOpacitySpring = useSpring(imageOpacity, HEADER.SPRING)
+  const imageFlip = useTransform(scrollY, [0, screenHeight || 1000], [0, 360])
 
   // Update viewport dimensions on resize
   useEffect(() => {
@@ -133,7 +123,10 @@ export default function Home() {
 
             <div className='relative w-full'>
               <ScreenSection id='home' ref={sectionRefs.home}>
-                <div className='flex items-center justify-center min-h-screen'>
+                <div
+                  className='flex items-center justify-center min-h-screen'
+                  style={{ perspective: 1000 }}
+                >
                   <motion.div
                     id='image'
                     className='relative '
@@ -141,9 +134,11 @@ export default function Home() {
                     animate={{ opacity: 1, y: isMobile ? -50 : 0 }}
                     transition={{ duration: 0.5, ease: 'easeInOut' }}
                     style={{
-                      scale: imageScaleSpring,
-                      y: imageYSpring,
-                      opacity: imageOpacitySpring,
+                      scale: imageScale,
+                      y: imageY,
+                      opacity: imageOpacity,
+                      rotateY: imageFlip,
+                      transformStyle: 'preserve-3d',
                     }}
                   >
                     <div
@@ -167,6 +162,12 @@ export default function Home() {
                       src='/chris.png'
                       alt='Christoflux'
                       className='rounded-[50%] sm:w-[200px] md:w-[300px] relative'
+                      style={{
+                        maskImage:
+                          'radial-gradient(circle at center, black 55%, transparent 95%)',
+                        WebkitMaskImage:
+                          'radial-gradient(circle at center, black 55%, transparent 95%)',
+                      }}
                       priority
                     />
                   </motion.div>
@@ -183,9 +184,17 @@ export default function Home() {
                           <TypingCycle /> Kruki
                         </h2>
                         <p className='text-lg mb-4 text-center'>
-                          I work profesionally as a software engineer but I
-                          dabble in 3D printed LED electronics for fun. <br />{' '}
-                          <br /> No yap, here's a few things I like:
+                          I work{' '}
+                          <Link
+                            href='https://chris.kruki.net'
+                            target='_blank'
+                            className='text-sky-300 hover:text-sky-400 transition-colors duration-300'
+                          >
+                            profesionally as a software engineer
+                          </Link>{' '}
+                          but I dabble in 3D printing and LED electronics
+                          projects for fun. <br /> <br /> No yap, here&apos;s a
+                          few things I like:
                         </p>
                         <div
                           className='-mx-8 overflow-hidden border-y border-white/15 bg-black/15 py-2'
@@ -215,7 +224,7 @@ export default function Home() {
                             type='button'
                             onClick={() => {
                               if (marqueeSlowed) {
-                                setMarqueeDuration(1)
+                                setMarqueeDuration(0.5)
                                 setMarqueeSlowed(false)
                               } else {
                                 setMarqueeDuration(30)

@@ -15,10 +15,13 @@ interface InstagramEmbedProps {
 
 const SCRIPT_SRC = 'https://www.instagram.com/embed.js'
 
-export default function InstagramEmbed({ url, className }: InstagramEmbedProps) {
+export default function InstagramEmbed({
+  url,
+  className,
+}: InstagramEmbedProps) {
   useEffect(() => {
     const existing = document.querySelector<HTMLScriptElement>(
-      `script[src="${SCRIPT_SRC}"]`,
+      `script[src="${SCRIPT_SRC}"]`
     )
     if (existing) {
       window.instgrm?.Embeds.process()
@@ -34,7 +37,7 @@ export default function InstagramEmbed({ url, className }: InstagramEmbedProps) 
     <blockquote
       className={`instagram-media ${className ?? ''}`.trim()}
       data-instgrm-permalink={url}
-      data-instgrm-version="14"
+      data-instgrm-version='14'
       style={{ maxWidth: 540, width: '100%', margin: '1px auto' }}
     />
   )

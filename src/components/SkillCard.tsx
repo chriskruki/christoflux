@@ -41,8 +41,8 @@ const SkillCard = ({ skill, index, onClick }: SkillCardProps) => {
           : { opacity: 0, y: 50, scale: 0.9 }
       }
       transition={{
-        duration: 0.6,
-        delay: index * 0.1,
+        duration: 0.4,
+        delay: index * 0.04,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
       whileHover={{
@@ -73,7 +73,7 @@ const SkillCard = ({ skill, index, onClick }: SkillCardProps) => {
               animate={
                 isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
               }
-              transition={{ delay: index * 0.1 + 0.8 }}
+              transition={{ delay: index * 0.04 + 0.3 }}
               className='absolute top-2 right-2 w-6 h-6 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/60 group-hover:text-white/80 group-hover:bg-white/20 transition-all duration-200'
             >
               <svg
@@ -98,8 +98,8 @@ const SkillCard = ({ skill, index, onClick }: SkillCardProps) => {
                 isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }
               }
               transition={{
-                duration: 0.6,
-                delay: index * 0.1 + 0.5,
+                duration: 0.4,
+                delay: index * 0.04 + 0.2,
               }}
               className='flex gap-1'
             >
@@ -116,8 +116,8 @@ const SkillCard = ({ skill, index, onClick }: SkillCardProps) => {
                       : { opacity: 0, scale: 0 }
                   }
                   transition={{
-                    duration: 0.4,
-                    delay: index * 0.1 + 0.7 + i * 0.1,
+                    duration: 0.3,
+                    delay: index * 0.04 + 0.3 + i * 0.04,
                   }}
                   className={`w-3 h-3 ${config.textColor}`}
                 >
@@ -134,8 +134,8 @@ const SkillCard = ({ skill, index, onClick }: SkillCardProps) => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{
-              duration: 0.5,
-              delay: index * 0.1 + 0.3,
+              duration: 0.35,
+              delay: index * 0.04 + 0.1,
             }}
             className={`text-lg font-semibold text-white/90 text-center group-hover:${config.textColor} transition-colors duration-300`}
           >
@@ -147,8 +147,8 @@ const SkillCard = ({ skill, index, onClick }: SkillCardProps) => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{
-              duration: 0.5,
-              delay: index * 0.1 + 0.4,
+              duration: 0.35,
+              delay: index * 0.04 + 0.15,
             }}
             className={`text-sm ${config.textColor} mt-2 opacity-80 font-medium`}
           >

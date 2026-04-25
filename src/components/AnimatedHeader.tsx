@@ -201,6 +201,8 @@ const AnimatedHeader = ({
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
+                filter:
+                  'drop-shadow(0 0 12px rgba(255,255,255,0.55)) drop-shadow(0 0 28px rgba(255,255,255,0.35))',
               }}
             >
               Christoflux
@@ -224,7 +226,7 @@ const AnimatedHeader = ({
           }}
         >
           <motion.nav
-            className='grid grid-cols-2 mt-5 gap-3 md:mt-0 md:flex md:flex-row md:items-center md:flex-nowrap md:justify-center md:gap-4'
+            className='grid grid-cols-[120px_120px] mt-5 gap-3 md:mt-0 md:flex md:flex-row md:items-center md:flex-nowrap md:justify-center md:gap-4'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={HEADER.NAV.TRANSITION}
@@ -254,7 +256,7 @@ const AnimatedHeader = ({
               width={120}
               isActive={currentSection.name === 'about'}
             >
-              Who
+              Who?
             </NavBtn>
             <NavBtn
               target='projects'
@@ -275,7 +277,7 @@ const AnimatedHeader = ({
               width={120}
               isActive={currentSection.name === 'contact'}
             >
-              Contact
+              HMU
             </NavBtn>
           </motion.nav>
         </motion.div>
