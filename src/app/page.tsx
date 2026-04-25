@@ -8,6 +8,7 @@ import ProjectsGrid from '@/components/ProjectsGrid'
 import ScreenSection from '@/components/ScreenSection'
 import SkillsGrid from '@/components/SkillsGrid'
 import SocialButton from '@/components/SocialButton'
+import TypingCycle from '@/components/TypingCycle'
 import { useSectionDetection } from '@/hooks/useSectionDetection'
 import { HEADER } from '@/utils/constants'
 import { SOCIALS, THINGS_I_LIKE } from '@/utils/copy'
@@ -178,12 +179,13 @@ export default function Home() {
                     <ContentCard variant='green'>
                       <div className='text-white/70'>
                         <h2 className='text-4xl font-light mb-4 text-center'>
-                          Low latency, high BPM
+                          Christof
+                          <TypingCycle /> Kruki
                         </h2>
                         <p className='text-lg mb-4 text-center'>
-                          Hey, I&apos;m Chris Kruki. I am a full stack engineer
-                          professionally and make 3D printed LED stuffs I like
-                          way too many things so I&apos;ll quickly list a few:
+                          I work profesionally as a software engineer but I
+                          dabble in 3D printed LED electronics for fun. <br />{' '}
+                          <br /> No yap, here's a few things I like:
                         </p>
                         <div
                           className='-mx-8 overflow-hidden border-y border-white/15 bg-black/15 py-2'
