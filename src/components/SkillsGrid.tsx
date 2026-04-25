@@ -86,7 +86,7 @@ export default function SkillsGrid() {
         className='text-center mb-16'
       >
         <h2 className='text-5xl font-light mb-4 bg-gradient-to-r from-emerald-400 via-green-400 to-teal-400 bg-clip-text text-transparent'>
-          Skills
+          Stats
         </h2>
         <div className='w-24 h-1 bg-gradient-to-r from-emerald-400 to-green-500 mx-auto rounded-full opacity-80' />
       </motion.div>

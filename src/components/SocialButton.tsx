@@ -77,10 +77,7 @@ const SocialButton = ({
   )
 
   return (
-    <motion.div
-      style={{ perspective: 800 }}
-      className='inline-block'
-    >
+    <motion.div style={{ perspective: 800 }} className='inline-block'>
       <motion.a
         ref={ref}
         href={href}
@@ -154,7 +151,11 @@ const SocialButton = ({
               stroke='currentColor'
               strokeWidth='2'
             >
-              <path d='M7 17L17 7M9 7h8v8' strokeLinecap='round' strokeLinejoin='round' />
+              <path
+                d='M7 17L17 7M9 7h8v8'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              />
             </svg>
           </div>
 

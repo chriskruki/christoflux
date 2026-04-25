@@ -181,8 +181,9 @@ export default function Home() {
                           Low latency, high BPM
                         </h2>
                         <p className='text-lg mb-4 text-center'>
-                          Hey, I'm Chris Kruki. I like way too many things so
-                          I'll quickly list a few:
+                          Hey, I&apos;m Chris Kruki. I am a full stack engineer
+                          professionally and make 3D printed LED stuffs I like
+                          way too many things so I&apos;ll quickly list a few:
                         </p>
                         <div
                           className='-mx-8 overflow-hidden border-y border-white/15 bg-black/15 py-2'
@@ -342,8 +343,18 @@ export default function Home() {
                           sublabel: 'chris.kruki.net',
                           accent: '16, 185, 129',
                           icon: (
-                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' className='h-6 w-6'>
-                              <path d='M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14' strokeLinecap='round' strokeLinejoin='round' />
+                            <svg
+                              viewBox='0 0 24 24'
+                              fill='none'
+                              stroke='currentColor'
+                              strokeWidth='1.8'
+                              className='h-6 w-6'
+                            >
+                              <path
+                                d='M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                              />
                             </svg>
                           ),
                         },
@@ -353,10 +364,21 @@ export default function Home() {
                           sublabel: '@christoflux',
                           accent: '232, 121, 249',
                           icon: (
-                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' className='h-6 w-6'>
+                            <svg
+                              viewBox='0 0 24 24'
+                              fill='none'
+                              stroke='currentColor'
+                              strokeWidth='1.8'
+                              className='h-6 w-6'
+                            >
                               <rect x='3' y='3' width='18' height='18' rx='5' />
                               <circle cx='12' cy='12' r='4' />
-                              <circle cx='17.5' cy='6.5' r='1' fill='currentColor' />
+                              <circle
+                                cx='17.5'
+                                cy='6.5'
+                                r='1'
+                                fill='currentColor'
+                              />
                             </svg>
                           ),
                         },
@@ -367,9 +389,19 @@ export default function Home() {
                           accent: '250, 204, 21',
                           external: false,
                           icon: (
-                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' className='h-6 w-6'>
+                            <svg
+                              viewBox='0 0 24 24'
+                              fill='none'
+                              stroke='currentColor'
+                              strokeWidth='1.8'
+                              className='h-6 w-6'
+                            >
                               <rect x='3' y='5' width='18' height='14' rx='2' />
-                              <path d='M3 7l9 6 9-6' strokeLinecap='round' strokeLinejoin='round' />
+                              <path
+                                d='M3 7l9 6 9-6'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                              />
                             </svg>
                           ),
                         },
@@ -378,7 +410,11 @@ export default function Home() {
                           key={item.label}
                           variants={{
                             hidden: { opacity: 0, y: 30 },
-                            show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+                            show: {
+                              opacity: 1,
+                              y: 0,
+                              transition: { duration: 0.5 },
+                            },
                           }}
                         >
                           <SocialButton {...item} />

@@ -22,15 +22,18 @@ After the split, both folders are independent Next.js projects that run with `pn
 ## Site 1: christoflux.com (flashy)
 
 ### What stays
+
 All existing visual systems remain: video background (`green.mp4`), `Background.tsx` trianglify, `RotatingCube`, `ThreeScene`, `AnimatedHeader` scroll-driven morph, `AnimatedEye`, `PageLoader`, framer-motion scroll animations, conic-gradient spinning ring on the home portrait, all rec content, all hobby modals.
 
 ### Content edits
-- **About copy** reframed toward persona. Lead with "wook engineer," followed by a brief mention of dev work that links out: *"For the dev side, see [chris.kruki.net](https://chris.kruki.net)."* Keep the existing tone for raving/flowing/music/LED hobbies.
+
+- **About copy** reframed toward persona. Lead with "wook engineer," followed by a brief mention of dev work that links out: _"For the dev side, see [chris.kruki.net](https://chris.kruki.net)."_ Keep the existing tone for raving/flowing/music/LED hobbies.
 - **Skills section** keeps **rec only** — `SKILLS.REC` (HOBBY_TECH, PHYSICAL, MUSIC, GAMES). Remove `SKILLS.DEV` and any DEV rendering paths from `SkillsGrid` / `SkillsSection`.
 - **Projects** keeps the creative slice — LED, totem, music, electronics. Drop dev-only/professional projects (these move to chris.kruki.net's projects). Exact filter list to be settled in the implementation plan based on the contents of `projectContent.tsx`.
 - **Contact** keeps Instagram + email. Remove LinkedIn and GitHub from the visible contact section (they belong on the dev site).
 
 ### Metadata / branding
+
 - `package.json` `"name": "christoflux.com"`.
 - `README.md` updated with new site purpose.
 - `app/layout.tsx` `metadata`: title "Christoflux", description for the persona site, OG image placeholder.
@@ -47,40 +50,45 @@ All existing visual systems remain: video background (`green.mp4`), `Background.
 5. **Contact** — LinkedIn, Email, GitHub.
 
 ### Navigation
+
 Top nav bar with name on the left and anchor links on the right: `Experience / Skills / Projects / Contact`. Sticky on scroll. No section morph, no scroll-driven animation — just a static, slim header.
 
 ### Experience timeline (centerpiece)
 
 Two-column CSS grid, **20% / 80%**.
 
-- **Left column (20%):** date ranges (year + month). The container uses `position: sticky` so the visible date label pins as you scroll past entries on the right. The displayed date corresponds to the entry currently in view; as the user scrolls, the left column updates to advance through ranges. A simple implementation: each entry pairs a left date block + right entry block in the same grid row, and the *date block itself* is `position: sticky; top: <nav-height>` so each one pins until the next one pushes it up. (If per-row sticky proves visually weak, fall back to a single observer-driven sticky label.)
+- **Left column (20%):** date ranges (year + month). The container uses `position: sticky` so the visible date label pins as you scroll past entries on the right. The displayed date corresponds to the entry currently in view; as the user scrolls, the left column updates to advance through ranges. A simple implementation: each entry pairs a left date block + right entry block in the same grid row, and the _date block itself_ is `position: sticky; top: <nav-height>` so each one pins until the next one pushes it up. (If per-row sticky proves visually weak, fall back to a single observer-driven sticky label.)
 - **Right column (80%):** stacked entries, mixed work + education, reverse-chronological.
 - **Visual distinction:** education entries get a different left border color (e.g., emerald-600 vs emerald-400) or a small icon to differentiate from work entries. Decision deferred to the implementation plan.
 - **Per entry:** title, organization, location (where applicable), employment type (full-time / freelance / part-time / intern), and 1–3 bullet points where copy is provided.
 
 **Data (reverse-chronological):**
 
-| Dates | Title | Org | Location | Type | Bullets |
-|---|---|---|---|---|---|
-| Mar 2026 – Present | Research Scientist II | UL Research Institutes | Remote | Full-time | — |
-| Jan 2024 – Mar 2026 | Associate Research Scientist | UL Research Institutes | Remote | Full-time | — |
-| Jan 2023 – Jan 2024 | Software Engineer | Klexity, Inc. | Remote | Freelance | — |
-| Mar 2023 – May 2023 | Undergraduate Researcher | Chapman University | Orange, CA · Hybrid | Part-time | Led development of an economic experiment engine using React, Tailwind CSS, TypeScript, Socket.IO, and Google Blockly — initial iteration of a revamp of Chapman's existing software for student-volunteer behavioral economics experiments. / Worked alongside economics and engineering professors driving conceptualization and planning of new features; converted theoretical knowledge into working systems. |
-| 2021 – 2023 | B.S. Computer Science | Chapman University | — | Education | — |
-| Aug 2020 – Aug 2021 | Software Engineer | Syntiant Corp. | Irvine, CA | Full-time | Full-stack web development of audio data labeling software using HTML, CSS (Bootstrap), JavaScript (jQuery), Python (Flask), MySQL. / Managed and instructed a team of interns performing ML data preparation. / Developed and maintained data utility scripts interfacing with MySQL, Amazon S3, MongoDB. |
-| Dec 2019 – Aug 2020 | Software Engineering Intern | Syntiant Corp. | Irvine, CA | Part-time | — |
-| 2018 – 2021 | Transfer, Computer Science | Irvine Valley College | — | Education | — |
+| Dates               | Title                        | Org                    | Location            | Type      | Bullets                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------- | ---------------------------- | ---------------------- | ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Mar 2026 – Present  | Research Scientist II        | UL Research Institutes | Remote              | Full-time | —                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Jan 2024 – Mar 2026 | Associate Research Scientist | UL Research Institutes | Remote              | Full-time | —                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Jan 2023 – Jan 2024 | Software Engineer            | Klexity, Inc.          | Remote              | Freelance | —                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Mar 2023 – May 2023 | Undergraduate Researcher     | Chapman University     | Orange, CA · Hybrid | Part-time | Led development of an economic experiment engine using React, Tailwind CSS, TypeScript, Socket.IO, and Google Blockly — initial iteration of a revamp of Chapman's existing software for student-volunteer behavioral economics experiments. / Worked alongside economics and engineering professors driving conceptualization and planning of new features; converted theoretical knowledge into working systems. |
+| 2021 – 2023         | B.S. Computer Science        | Chapman University     | —                   | Education | —                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Aug 2020 – Aug 2021 | Software Engineer            | Syntiant Corp.         | Irvine, CA          | Full-time | Full-stack web development of audio data labeling software using HTML, CSS (Bootstrap), JavaScript (jQuery), Python (Flask), MySQL. / Managed and instructed a team of interns performing ML data preparation. / Developed and maintained data utility scripts interfacing with MySQL, Amazon S3, MongoDB.                                                                                                         |
+| Dec 2019 – Aug 2020 | Software Engineering Intern  | Syntiant Corp.         | Irvine, CA          | Part-time | —                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 2018 – 2021         | Transfer, Computer Science   | Irvine Valley College  | —                   | Education | —                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 The above will live in a typed data file (`src/utils/experience.ts`) so the timeline component reads from a single source of truth.
 
 ### Skills (dev only)
+
 Source data from existing `SKILLS.DEV.LANGUAGES` and `SKILLS.DEV.FRAMEWORKS` in `copy.ts`. Render as tier-tinted chips reusing the existing `SkillChip` component, with the heavy hover/glow trimmed to a flat hover. No `SkillModal`, no rec sections, no expanding cards.
 
 ### Projects (dev only)
+
 Filter `projectContent.tsx` down to dev/professional entries. Reuse a slimmed `ProjectsGrid` and `ProjectCard` — drop the modal flourishes, keep cards as flat tiles with thumbnail, title, short description, and link. Exact filter list confirmed during implementation.
 
 ### Contact
+
 Three flat icon-text links in a horizontal row:
+
 - LinkedIn → `https://www.linkedin.com/in/chriskruki/`
 - Email → `mailto:chriskruki@gmail.com`
 - GitHub → `https://github.com/chriskruki`
@@ -88,6 +96,7 @@ Three flat icon-text links in a horizontal row:
 No Instagram. No resume link (deferred until a PDF is provided).
 
 ### Visual style
+
 - **Background:** keep `Background.tsx` trianglify generation, but **static** — generate once on mount, no animation loop, no regenerate. Slow it down or skip the loop entirely.
 - **Removed:** `green.mp4` video background, `RotatingCube`, `ThreeScene`, `AnimatedEye`, `PageLoader` (no longer needed without the heavy video preload), scroll-driven `AnimatedHeader` morph, conic-gradient spinning ring, pulse-glow.
 - **Cards:** flatten — drop backdrop blur and heavy gradient backgrounds, use a thin emerald border + dark fill.
@@ -95,6 +104,7 @@ No Instagram. No resume link (deferred until a PDF is provided).
 - **Animations:** subtle fade-in on load, light hover transitions on links/cards. No scroll-driven motion.
 
 ### Metadata / branding
+
 - `package.json` `"name": "chris.kruki.net"`.
 - `README.md` updated.
 - `app/layout.tsx` `metadata`: title "Chris Kruki", description for a software engineer portfolio, OG image placeholder.
@@ -103,6 +113,7 @@ No Instagram. No resume link (deferred until a PDF is provided).
 ## Component / Module Plan
 
 ### Removed from chris.kruki.net
+
 - `src/components/threejs/` (entire dir — RotatingCube, ScrollBackground, Stars, ThreeScene)
 - `src/components/AnimatedEye.tsx`
 - `src/components/PageLoader.tsx`
@@ -114,6 +125,7 @@ No Instagram. No resume link (deferred until a PDF is provided).
 - `@react-three/drei`, `@react-three/fiber`, `three`, `@types/three`, `trianglify` (last one stays if static trianglify retained — TBD during implementation)
 
 ### Modified on chris.kruki.net
+
 - `src/app/page.tsx` — rewritten around the new section list.
 - `src/components/AnimatedHeader.tsx` → replaced with a slim `Header.tsx` (static nav bar).
 - `src/components/Background.tsx` — switched to static (one-shot) trianglify, or removed entirely if it doesn't fit the dialed-down aesthetic.
@@ -123,6 +135,7 @@ No Instagram. No resume link (deferred until a PDF is provided).
 - `src/utils/projectContent.tsx` — filter to dev-only.
 
 ### Added to chris.kruki.net
+
 - `src/components/Hero.tsx` — wordmark + fade-in.
 - `src/components/Header.tsx` — sticky nav.
 - `src/components/Experience.tsx` — sticky-left timeline.

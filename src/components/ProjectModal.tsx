@@ -198,4 +198,3 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
 }
 
 export default ProjectModal
-

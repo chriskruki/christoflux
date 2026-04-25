@@ -224,7 +224,7 @@ const AnimatedHeader = ({
           }}
         >
           <motion.nav
-            className='flex flex-col mt-5 gap-4 md:mt-0 md:flex-row items-center flex-nowrap justify-center'
+            className='grid grid-cols-2 mt-5 gap-3 md:mt-0 md:flex md:flex-row md:items-center md:flex-nowrap md:justify-center md:gap-4'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={HEADER.NAV.TRANSITION}
@@ -235,18 +235,20 @@ const AnimatedHeader = ({
               translateY: '-50%',
             }}
           >
-            <NavBtn
-              target='home'
-              width={120}
-              isActive={currentSection.name === 'home'}
-              style={{
-                opacity: homeButtonOpacity,
-                transition: 'opacity 0.3s ease-in-out',
-                pointerEvents: homePointerEvents,
-              }}
-            >
-              Home
-            </NavBtn>
+            {!isMobile && (
+              <NavBtn
+                target='home'
+                width={120}
+                isActive={currentSection.name === 'home'}
+                style={{
+                  opacity: homeButtonOpacity,
+                  transition: 'opacity 0.3s ease-in-out',
+                  pointerEvents: homePointerEvents,
+                }}
+              >
+                Home
+              </NavBtn>
+            )}
             <NavBtn
               target='about'
               width={120}
@@ -266,7 +268,7 @@ const AnimatedHeader = ({
               width={120}
               isActive={currentSection.name === 'skills'}
             >
-              Skills
+              Traits
             </NavBtn>
             <NavBtn
               target='contact'
