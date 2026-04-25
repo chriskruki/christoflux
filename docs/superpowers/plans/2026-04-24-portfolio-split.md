@@ -5,6 +5,7 @@
 **Goal:** Split the existing portfolio at `/Users/chriskruki/gitlab/chriskruki.com/` into two independent Next.js sites — `/gitlab/christoflux.com/` (flashy persona, retains current theme) and `/gitlab/chriskruki.com/` in place (lightweight dev portfolio with sticky-timeline experience section).
 
 **Architecture:**
+
 - **Step 1 — Clone phase:** Full directory copy of `chriskruki.com/` → `christoflux.com/`. Both folders compile independently.
 - **Step 2 — Christoflux content edits:** strip dev skills, reframe About copy toward persona, drop dev projects, drop LinkedIn/GitHub from contact, rename package + metadata.
 - **Step 3 — Chris.kruki.net teardown + rebuild:** delete heavy components (3D, video, modals, rec sections), drop unused deps, rebuild around 5 new lean components: Header, Hero, Experience (sticky 20/80 timeline), Skills (dev-only chips), Projects (flat dev tiles), Contact (LinkedIn + Email + GitHub).
@@ -24,53 +25,64 @@
 ### Task 1: Copy chriskruki.com → christoflux.com
 
 **Files:**
+
 - Source: `/Users/chriskruki/gitlab/chriskruki.com/` (entire directory)
 - Target (create): `/Users/chriskruki/gitlab/christoflux.com/`
 
 - [ ] **Step 1: Verify source state is clean**
 
 Run from `/Users/chriskruki/gitlab/chriskruki.com/`:
+
 ```bash
 git status
 ```
-Expected: working tree is either clean or only contains `D public/chris.jpg` (which is the known pre-existing state per the session's gitStatus snapshot). If there are unrelated dirty changes, stop and ask the user before proceeding.
+
+Expected: working tree is either clean or only contains `D public/chris.png` (which is the known pre-existing state per the session's gitStatus snapshot). If there are unrelated dirty changes, stop and ask the user before proceeding.
 
 - [ ] **Step 2: Copy directory excluding build artifacts**
 
 Run:
+
 ```bash
 mkdir -p /Users/chriskruki/gitlab/christoflux.com
 rsync -a --exclude='node_modules' --exclude='.next' --exclude='.git' --exclude='tsconfig.tsbuildinfo' /Users/chriskruki/gitlab/chriskruki.com/ /Users/chriskruki/gitlab/christoflux.com/
 ```
+
 Expected: rsync completes silently. No git history is copied (the user will `git init` later when moving to its own repo).
 
 - [ ] **Step 3: Initialize an isolated git history for christoflux.com**
 
 Run:
+
 ```bash
 cd /Users/chriskruki/gitlab/christoflux.com && git init -b main && git add -A
 ```
+
 Expected: empty `main` branch with all files staged. Do NOT commit — the user commits manually.
 
 - [ ] **Step 4: Install dependencies in the new folder**
 
 Run:
+
 ```bash
 cd /Users/chriskruki/gitlab/christoflux.com && pnpm install
 ```
+
 Expected: pnpm completes without errors. `node_modules/` populated.
 
 - [ ] **Step 5: Verify the cloned project runs**
 
 Run:
+
 ```bash
 cd /Users/chriskruki/gitlab/christoflux.com && pnpm dev
 ```
+
 Expected: Next dev server starts on `http://localhost:3000`. Open it in a browser, confirm the existing flashy site renders identically (video bg, animated header, all sections). Stop the dev server with Ctrl+C.
 
 - [ ] **Step 6: Pause for user to commit**
 
-Suggested commit message for `chriskruki.com` repo: *(no commit needed in source — nothing changed there)*
+Suggested commit message for `chriskruki.com` repo: _(no commit needed in source — nothing changed there)_
 Suggested commit for `christoflux.com` repo: `chore: initial fork from chriskruki.com`
 Wait for user approval before continuing.
 
@@ -83,6 +95,7 @@ All work in this phase is in `/Users/chriskruki/gitlab/christoflux.com/`. The or
 ### Task 2: Rename project identity
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/christoflux.com/package.json`
 - Modify: `/Users/chriskruki/gitlab/christoflux.com/README.md`
 - Modify: `/Users/chriskruki/gitlab/christoflux.com/src/app/layout.tsx`
@@ -92,10 +105,13 @@ All work in this phase is in `/Users/chriskruki/gitlab/christoflux.com/`. The or
 Edit `/Users/chriskruki/gitlab/christoflux.com/package.json`:
 
 Replace:
+
 ```json
 "name": "chris.kruki.net",
 ```
+
 With:
+
 ```json
 "name": "christoflux.com",
 ```
@@ -103,7 +119,8 @@ With:
 - [ ] **Step 2: Replace README contents**
 
 Overwrite `/Users/chriskruki/gitlab/christoflux.com/README.md`:
-```markdown
+
+````markdown
 # christoflux.com
 
 Christoflux — persona portfolio. Raving, flowing, music, LED, electronics.
@@ -114,7 +131,9 @@ Christoflux — persona portfolio. Raving, flowing, music, LED, electronics.
 pnpm install
 pnpm dev
 ```
-```
+````
+
+````
 
 - [ ] **Step 3: Update layout metadata**
 
@@ -127,8 +146,10 @@ export const metadata: Metadata = {
   description: 'Hello',
   icons: { /* … unchanged … */ },
 }
-```
+````
+
 With:
+
 ```ts
 export const metadata: Metadata = {
   title: 'Christoflux',
@@ -163,9 +184,11 @@ export const metadata: Metadata = {
 - [ ] **Step 4: Verify the dev server still loads with new title**
 
 Run from `/Users/chriskruki/gitlab/christoflux.com/`:
+
 ```bash
 pnpm dev
 ```
+
 Open browser to `localhost:3000`. Confirm the tab title is "Christoflux". Stop the server.
 
 - [ ] **Step 5: Pause for user to commit**
@@ -177,6 +200,7 @@ Suggested message: `chore: rename to christoflux.com (package, README, metadata)
 ### Task 3: Strip dev skills from christoflux's data layer
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/christoflux.com/src/utils/copy.ts`
 
 - [ ] **Step 1: Remove the `DEV` block from `SKILLS`**
@@ -184,6 +208,7 @@ Suggested message: `chore: rename to christoflux.com (package, README, metadata)
 Edit `/Users/chriskruki/gitlab/christoflux.com/src/utils/copy.ts`:
 
 Replace the entire `SKILLS` export with:
+
 ```ts
 export const SKILLS = {
   REC: {
@@ -194,7 +219,12 @@ export const SKILLS = {
       { name: 'Electronics', tier: 3 },
     ],
     PHYSICAL: [
-      { name: 'Ripsticking', tier: 1, since: '1/1/2012', content: 'ripsticking' },
+      {
+        name: 'Ripsticking',
+        tier: 1,
+        since: '1/1/2012',
+        content: 'ripsticking',
+      },
       { name: 'Sand Balls', tier: 1, since: '8/1/2017', content: 'sandball' },
       { name: 'Flowstar', tier: 2, since: '3/10/2025', content: 'flowstar' },
       { name: 'Shuffling', tier: 2, since: '2012' },
@@ -227,11 +257,11 @@ Leave `TIER_CONFIG` and `SOCIALS` exports unchanged in this task.
 Edit `/Users/chriskruki/gitlab/christoflux.com/src/components/SkillsGrid.tsx`. Replace lines 28–33 (the `getAllSkillsWithContent` function body) with:
 
 ```ts
-  const getAllSkillsWithContent = (): Skill[] => {
-    const allSkills: Skill[] = []
-    Object.values(SKILLS.REC).forEach(skills => allSkills.push(...skills))
-    return allSkills.filter(skill => skill.content)
-  }
+const getAllSkillsWithContent = (): Skill[] => {
+  const allSkills: Skill[] = []
+  Object.values(SKILLS.REC).forEach(skills => allSkills.push(...skills))
+  return allSkills.filter(skill => skill.content)
+}
 ```
 
 Then remove the two dev sections from the JSX. Find this block (lines ~95–110):
@@ -260,9 +290,11 @@ Delete it entirely. The remaining `SkillsSection` calls (Hobbies, Hobby Tech, Mu
 - [ ] **Step 3: Type-check**
 
 Run from `/Users/chriskruki/gitlab/christoflux.com/`:
+
 ```bash
 pnpm tsc --noEmit
 ```
+
 Expected: 0 errors. If there are errors referencing `SKILLS.DEV`, search the codebase and remove those references.
 
 - [ ] **Step 4: Verify in browser**
@@ -278,6 +310,7 @@ Suggested message: `feat(christoflux): strip dev skills, keep rec only`
 ### Task 4: Reframe About copy + add link to chris.kruki.net
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/christoflux.com/src/app/page.tsx`
 
 - [ ] **Step 1: Replace the About section content**
@@ -285,36 +318,36 @@ Suggested message: `feat(christoflux): strip dev skills, keep rec only`
 Edit `/Users/chriskruki/gitlab/christoflux.com/src/app/page.tsx`. Find the `<ScreenSection id='about' …>` block (lines ~173–208). Replace its inner content with:
 
 ```tsx
-              <ScreenSection id='about' ref={sectionRefs.about}>
-                <div className='flex items-center justify-center min-h-screen'>
-                  <ContentCard>
-                    <div className='text-center text-white/70'>
-                      <h2 className='text-4xl font-light mb-4'>Who dis</h2>
-                      <p className='text-lg mb-6'>
-                        Wook engineer by night, software engineer by day
-                      </p>
-                      <div className='max-w-2xl mx-auto text-left space-y-4'>
-                        <p className='text-base leading-relaxed'>
-                          {`I rave, flow, mix and make music, and hyperfixate on
+<ScreenSection id='about' ref={sectionRefs.about}>
+  <div className='flex items-center justify-center min-h-screen'>
+    <ContentCard>
+      <div className='text-center text-white/70'>
+        <h2 className='text-4xl font-light mb-4'>Who dis</h2>
+        <p className='text-lg mb-6'>
+          Wook engineer by night, software engineer by day
+        </p>
+        <div className='max-w-2xl mx-auto text-left space-y-4'>
+          <p className='text-base leading-relaxed'>
+            {`I rave, flow, mix and make music, and hyperfixate on
                           random LED + electronics projects. This site is the playground
                           for that side.`}
-                        </p>
-                        <p className='text-base leading-relaxed'>
-                          For the dev side, see{' '}
-                          <Link
-                            href='https://chris.kruki.net'
-                            style={{ color: 'lightgreen' }}
-                            target='_blank'
-                          >
-                            chris.kruki.net
-                          </Link>
-                          .
-                        </p>
-                      </div>
-                    </div>
-                  </ContentCard>
-                </div>
-              </ScreenSection>
+          </p>
+          <p className='text-base leading-relaxed'>
+            For the dev side, see{' '}
+            <Link
+              href='https://chris.kruki.net'
+              style={{ color: 'lightgreen' }}
+              target='_blank'
+            >
+              chris.kruki.net
+            </Link>
+            .
+          </p>
+        </div>
+      </div>
+    </ContentCard>
+  </div>
+</ScreenSection>
 ```
 
 - [ ] **Step 2: Verify in browser**
@@ -330,6 +363,7 @@ Suggested message: `feat(christoflux): reframe About copy toward persona; link t
 ### Task 5: Filter projects to creative-only on christoflux
 
 **Files:**
+
 - Inspect: `/Users/chriskruki/gitlab/christoflux.com/src/components/ProjectsGrid.tsx`
 
 - [ ] **Step 1: Verify current project list is already creative-only**
@@ -349,6 +383,7 @@ No commit needed for this task.
 ### Task 6: Restrict contact to Instagram + email only
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/christoflux.com/src/utils/copy.ts`
 - Modify: `/Users/chriskruki/gitlab/christoflux.com/src/app/page.tsx`
 
@@ -370,33 +405,39 @@ export const SOCIALS = {
 Edit `/Users/chriskruki/gitlab/christoflux.com/src/app/page.tsx`. Find the `<ScreenSection id='contact' …>` block (lines ~238–249). Replace inner content with:
 
 ```tsx
-              <ScreenSection id='contact' ref={sectionRefs.contact}>
-                <div className='flex items-center justify-center min-h-screen'>
-                  <ContentCard>
-                    <div className='text-center text-white/70 space-y-4'>
-                      <h2 className='text-4xl font-light mb-4'>HMU</h2>
-                      <div>
-                        <Link href={'mailto:' + SOCIALS.EMAIL} target='_blank'>
-                          {SOCIALS.EMAIL}
-                        </Link>
-                      </div>
-                      <div>
-                        <Link href={SOCIALS.INSTAGRAM} target='_blank' style={{ color: 'lightgreen' }}>
-                          @christoflux
-                        </Link>
-                      </div>
-                    </div>
-                  </ContentCard>
-                </div>
-              </ScreenSection>
+<ScreenSection id='contact' ref={sectionRefs.contact}>
+  <div className='flex items-center justify-center min-h-screen'>
+    <ContentCard>
+      <div className='text-center text-white/70 space-y-4'>
+        <h2 className='text-4xl font-light mb-4'>HMU</h2>
+        <div>
+          <Link href={'mailto:' + SOCIALS.EMAIL} target='_blank'>
+            {SOCIALS.EMAIL}
+          </Link>
+        </div>
+        <div>
+          <Link
+            href={SOCIALS.INSTAGRAM}
+            target='_blank'
+            style={{ color: 'lightgreen' }}
+          >
+            @christoflux
+          </Link>
+        </div>
+      </div>
+    </ContentCard>
+  </div>
+</ScreenSection>
 ```
 
 - [ ] **Step 3: Type-check + verify**
 
 Run from `/Users/chriskruki/gitlab/christoflux.com/`:
+
 ```bash
 pnpm tsc --noEmit && pnpm dev
 ```
+
 Expected: 0 type errors. In browser, scroll to Contact — confirm email + @christoflux Instagram link visible. Confirm no LinkedIn/GitHub references anywhere on the page. Stop the server.
 
 - [ ] **Step 4: Pause for user to commit**
@@ -408,31 +449,39 @@ Suggested message: `feat(christoflux): contact = email + instagram only`
 ### Task 7: Final christoflux verification
 
 **Files:**
+
 - None modified — verification only.
 
 - [ ] **Step 1: Full type-check**
 
 Run from `/Users/chriskruki/gitlab/christoflux.com/`:
+
 ```bash
 pnpm tsc --noEmit
 ```
+
 Expected: 0 errors.
 
 - [ ] **Step 2: Production build**
 
 Run:
+
 ```bash
 pnpm build
 ```
+
 Expected: build succeeds with no errors. Output shows the `app/page` route building.
 
 - [ ] **Step 3: Smoke-test the production build**
 
 Run:
+
 ```bash
 pnpm start
 ```
+
 Expected: server starts on port 3000. Open the browser, click through all sections (Home → About → Projects → Skills → Contact). Confirm:
+
 - Title is "Christoflux"
 - About copy reframed (wook/persona) with link to chris.kruki.net
 - Skills shows Hobbies / Hobby Tech / Music / Gaming only — no Languages or Work Tech
@@ -454,6 +503,7 @@ All work in this phase is in `/Users/chriskruki/gitlab/chriskruki.com/`. The git
 ### Task 8: Delete heavy components, hooks, contexts
 
 **Files:**
+
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/src/components/threejs/` (entire dir)
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/src/components/AnimatedEye.tsx`
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/src/components/PageLoader.tsx`
@@ -480,6 +530,7 @@ All work in this phase is in `/Users/chriskruki/gitlab/chriskruki.com/`. The git
 - [ ] **Step 1: Delete the components**
 
 Run from `/Users/chriskruki/gitlab/chriskruki.com/`:
+
 ```bash
 rm -rf src/components/threejs src/components/nav
 rm src/components/AnimatedEye.tsx
@@ -501,6 +552,7 @@ rm src/components/ScreenSection.tsx
 - [ ] **Step 2: Delete contexts + hooks + utils**
 
 Run:
+
 ```bash
 rm -rf src/contexts
 rm src/hooks/useMousePosition.ts
@@ -510,6 +562,7 @@ rm src/utils/projectContent.tsx
 ```
 
 After this, `src/hooks/` should be empty. Remove it:
+
 ```bash
 rmdir src/hooks
 ```
@@ -517,9 +570,11 @@ rmdir src/hooks
 - [ ] **Step 3: Verify SkillChip is the only component left**
 
 Run:
+
 ```bash
 ls src/components
 ```
+
 Expected output: `SkillChip.tsx` only. (`SkillChip.tsx` will be reused in Task 13.)
 
 - [ ] **Step 4: Pause for user to commit**
@@ -533,6 +588,7 @@ Suggested message: `chore(chriskruki): delete heavy components, contexts, hooks 
 ### Task 9: Delete heavy media from public/
 
 **Files:**
+
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/public/green.mp4`
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/public/blue-fluid.gif`
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/public/blue-hd.gif`
@@ -546,11 +602,12 @@ Suggested message: `chore(chriskruki): delete heavy components, contexts, hooks 
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/public/totem.jpeg`
 - Delete: `/Users/chriskruki/gitlab/chriskruki.com/public/totem_1.mov`
 
-The `public/fav/` directory and `public/chris.jpg` (already deleted per gitStatus snapshot) stay.
+The `public/fav/` directory and `public/chris.png` (already deleted per gitStatus snapshot) stay.
 
 - [ ] **Step 1: Delete the media files**
 
 Run from `/Users/chriskruki/gitlab/chriskruki.com/`:
+
 ```bash
 rm -f public/green.mp4 public/blue-fluid.gif public/blue-hd.gif public/white.gif \
       public/flowstar.mov public/iris.jpeg public/iris_hf.jpeg public/iris_hf_1.mov \
@@ -560,10 +617,12 @@ rm -f public/green.mp4 public/blue-fluid.gif public/blue-hd.gif public/white.gif
 - [ ] **Step 2: Confirm only fav/ remains**
 
 Run:
+
 ```bash
 ls public
 ```
-Expected output: `fav/` directory only. (Possibly also `chris.jpg` if it was restored — that's fine, it's referenced by no code after Task 14.)
+
+Expected output: `fav/` directory only. (Possibly also `chris.png` if it was restored — that's fine, it's referenced by no code after Task 14.)
 
 - [ ] **Step 3: Pause for user to commit**
 
@@ -574,11 +633,13 @@ Suggested message: `chore(chriskruki): remove heavy media (video, gif, mov asset
 ### Task 10: Drop unused dependencies
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/chriskruki.com/package.json`
 
 - [ ] **Step 1: Remove three.js + trianglify deps**
 
 Edit `/Users/chriskruki/gitlab/chriskruki.com/package.json`. In `dependencies`, remove:
+
 - `@react-three/drei`
 - `@react-three/fiber`
 - `@types/three`
@@ -586,6 +647,7 @@ Edit `/Users/chriskruki/gitlab/chriskruki.com/package.json`. In `dependencies`, 
 - `trianglify`
 
 In `devDependencies`, remove:
+
 - `@types/trianglify`
 
 The resulting `package.json` should look like:
@@ -625,9 +687,11 @@ The resulting `package.json` should look like:
 - [ ] **Step 2: Reinstall**
 
 Run:
+
 ```bash
 cd /Users/chriskruki/gitlab/chriskruki.com && pnpm install
 ```
+
 Expected: pnpm prunes the removed deps. `pnpm-lock.yaml` updates.
 
 - [ ] **Step 3: Pause for user to commit**
@@ -639,6 +703,7 @@ Suggested message: `chore(chriskruki): drop three.js + trianglify deps`
 ### Task 11: Update copy.ts for the lightweight site
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/chriskruki.com/src/utils/copy.ts`
 
 - [ ] **Step 1: Replace copy.ts with dev-only version**
@@ -723,6 +788,7 @@ export const SOCIALS = {
 - [ ] **Step 2: Delete `src/utils/constants.ts`**
 
 This file is full of HEADER/SECTIONS/CUBE constants tied to the deleted scroll-driven header and 3D cube. Run:
+
 ```bash
 rm src/utils/constants.ts
 ```
@@ -740,6 +806,7 @@ Suggested message: `feat(chriskruki): trim copy.ts to dev only; drop deleted con
 ### Task 12: Create the experience data file
 
 **Files:**
+
 - Create: `/Users/chriskruki/gitlab/chriskruki.com/src/utils/experience.ts`
 
 - [ ] **Step 1: Write experience.ts**
@@ -844,9 +911,11 @@ export const EXPERIENCE: ExperienceEntry[] = [
 - [ ] **Step 2: Type-check the new file in isolation**
 
 Run from `/Users/chriskruki/gitlab/chriskruki.com/`:
+
 ```bash
 pnpm tsc --noEmit src/utils/experience.ts
 ```
+
 (Or just `pnpm tsc --noEmit` — it'll fail elsewhere on the still-broken page.tsx, that's OK.) Confirm experience.ts itself has no errors.
 
 - [ ] **Step 3: Pause for user to commit**
@@ -858,6 +927,7 @@ Suggested message: `feat(chriskruki): add experience data (work + education)`
 ### Task 13: Build new components — Header, Hero, Contact, SkillsSection, ProjectsSection
 
 **Files:**
+
 - Create: `/Users/chriskruki/gitlab/chriskruki.com/src/components/Header.tsx`
 - Create: `/Users/chriskruki/gitlab/chriskruki.com/src/components/Hero.tsx`
 - Create: `/Users/chriskruki/gitlab/chriskruki.com/src/components/Contact.tsx`
@@ -1149,6 +1219,7 @@ Suggested message: `feat(chriskruki): add Header, Hero, Contact, SkillsSection, 
 ### Task 14: Build the sticky-timeline Experience section
 
 **Files:**
+
 - Create: `/Users/chriskruki/gitlab/chriskruki.com/src/components/Experience.tsx`
 - Create: `/Users/chriskruki/gitlab/chriskruki.com/src/components/ExperienceEntry.tsx`
 
@@ -1219,9 +1290,7 @@ export default function Experience() {
             <div key={entry.id} className='contents'>
               {/* Left column: sticky date label */}
               <div className='relative'>
-                <div
-                  className='sticky top-20 text-right text-sm text-white/60 font-mono leading-snug pr-2 sm:pr-4'
-                >
+                <div className='sticky top-20 text-right text-sm text-white/60 font-mono leading-snug pr-2 sm:pr-4'>
                   {entry.dateLabel}
                 </div>
               </div>
@@ -1252,6 +1321,7 @@ Suggested message: `feat(chriskruki): add sticky 20/80 Experience timeline`
 ### Task 15: Rewrite page.tsx, layout.tsx, globals.css
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/chriskruki.com/src/app/page.tsx`
 - Modify: `/Users/chriskruki/gitlab/chriskruki.com/src/app/layout.tsx`
 - Modify: `/Users/chriskruki/gitlab/chriskruki.com/src/app/globals.css`
@@ -1360,7 +1430,11 @@ Overwrite `/Users/chriskruki/gitlab/chriskruki.com/src/app/globals.css`:
 @import 'tailwindcss';
 
 .font-nunito {
-  font-family: var(--font-nunito), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-nunito),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 body {
@@ -1373,14 +1447,17 @@ body {
 - [ ] **Step 4: Type-check the full project**
 
 Run from `/Users/chriskruki/gitlab/chriskruki.com/`:
+
 ```bash
 pnpm tsc --noEmit
 ```
+
 Expected: 0 errors. If errors appear, they'll point to leftover imports of deleted modules — fix them.
 
 - [ ] **Step 5: Run dev server and verify visually**
 
 Run:
+
 ```bash
 pnpm dev
 ```
@@ -1407,13 +1484,14 @@ Suggested message: `feat(chriskruki): single-page lightweight portfolio (hero, s
 ### Task 16: Update README + final build verification
 
 **Files:**
+
 - Modify: `/Users/chriskruki/gitlab/chriskruki.com/README.md`
 
 - [ ] **Step 1: Replace README**
 
 Overwrite `/Users/chriskruki/gitlab/chriskruki.com/README.md`:
 
-```markdown
+````markdown
 # chris.kruki.net
 
 Personal dev portfolio. Single-page Next.js site — hero, experience timeline, skills, projects, contact.
@@ -1424,30 +1502,37 @@ Personal dev portfolio. Single-page Next.js site — hero, experience timeline, 
 pnpm install
 pnpm dev
 ```
-```
+````
+
+````
 
 - [ ] **Step 2: Production build**
 
 Run from `/Users/chriskruki/gitlab/chriskruki.com/`:
 ```bash
 pnpm build
-```
+````
+
 Expected: build succeeds. Output shows `app/page` building. Bundle size should be noticeably smaller than before (no three.js, no trianglify, no media).
 
 - [ ] **Step 3: Smoke-test production build**
 
 Run:
+
 ```bash
 pnpm start
 ```
+
 Re-verify the visual checklist from Task 15 Step 5 against the production build. Stop the server.
 
 - [ ] **Step 4: Lint pass**
 
 Run:
+
 ```bash
 pnpm lint
 ```
+
 Expected: 0 lint errors. If lint complains about unused imports anywhere (it shouldn't, since deletions in Task 8 were thorough), fix them.
 
 - [ ] **Step 5: Pause for user to commit + final handoff**
@@ -1455,6 +1540,7 @@ Expected: 0 lint errors. If lint complains about unused imports anywhere (it sho
 Suggested message: `chore(chriskruki): update README; final build pass`
 
 Phase 3 complete. Both sites should now run independently:
+
 - `cd /Users/chriskruki/gitlab/christoflux.com && pnpm dev` → flashy persona portfolio at localhost:3000
 - `cd /Users/chriskruki/gitlab/chriskruki.com && pnpm dev` → lightweight dev portfolio at localhost:3000
 
@@ -1463,6 +1549,7 @@ Phase 3 complete. Both sites should now run independently:
 ## Self-Review Notes
 
 **Spec coverage:**
+
 - Repo split: Task 1 ✔
 - Christoflux content edits (About reframe, dev skills strip, projects filter, contact trim): Tasks 3–6 ✔
 - Christoflux metadata: Task 2 ✔
@@ -1473,12 +1560,14 @@ Phase 3 complete. Both sites should now run independently:
 - chris.kruki.net README + final build: Task 16 ✔
 
 **Open spec items I locked in during planning:**
+
 - Education vs. work distinction → emerald-700 vs emerald-400 left border (Task 14, ExperienceEntry).
 - Sticky timeline technique → per-row sticky inside CSS grid using `display: contents` wrappers (Task 14, Experience.tsx). Single observer-driven sticky was the alternative — rejected because per-row sticky is simpler and avoids JS scroll listeners.
 - Trianglify → dropped entirely on chris.kruki.net (Task 8 deletes Background.tsx). Solid black background only.
 - Dev project list → starts with `dyff.io` only (Task 13). User can extend.
 
 **Type consistency check:**
+
 - `ExperienceEntry` interface in `experience.ts` used by `ExperienceEntry.tsx` (component) — shadowed name is fine (component imports the type as `Entry` to avoid clash).
 - `DevProject` interface in `projects.ts` used by `ProjectsSection.tsx` consistently.
 - `Skill` shape used by `SkillChip` matches what `SKILLS.DEV.LANGUAGES` / `FRAMEWORKS` export (both have `{ name: string; tier: number }`).

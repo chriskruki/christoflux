@@ -139,33 +139,33 @@ export const CUBE = {
 // Define cube faces with images
 export const CUBE_FACES = [
   {
-    title: 'About',
+    title: 'Who',
     content: 'Learn more about my background and skills',
-    image: 'chris.jpg',
+    image: 'chris.png',
   },
   {
     title: 'Projects',
     content: 'Explore my latest work and creations',
-    image: 'chris.jpg',
+    image: 'chris.png',
   },
   {
     title: 'Contact',
     content: "Get in touch and let's work together",
-    image: 'chris.jpg',
+    image: 'chris.png',
   },
   {
     title: 'Skills',
     content: 'Technologies and tools I work with',
-    image: 'chris.jpg',
+    image: 'chris.png',
   },
   {
     title: 'Skills',
     content: 'Technologies and tools I work with',
-    image: 'chris.jpg',
+    image: 'chris.png',
   },
   {
     title: 'Skills',
     content: 'Technologies and tools I work with',
-    image: 'chris.jpg',
+    image: 'chris.png',
   },
 ]

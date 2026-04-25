@@ -7,18 +7,18 @@ import PageLoader from '@/components/PageLoader'
 import ProjectsGrid from '@/components/ProjectsGrid'
 import ScreenSection from '@/components/ScreenSection'
 import SkillsGrid from '@/components/SkillsGrid'
+import SocialButton from '@/components/SocialButton'
 import { useSectionDetection } from '@/hooks/useSectionDetection'
 import { HEADER } from '@/utils/constants'
-import { SOCIALS } from '@/utils/copy'
+import { SOCIALS, THINGS_I_LIKE } from '@/utils/copy'
 import {
+  AnimatePresence,
   motion,
   useScroll,
   useSpring,
   useTransform,
-  AnimatePresence,
 } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
 export default function Home() {
@@ -29,6 +29,8 @@ export default function Home() {
     backgroundVideo: false,
     chrisImage: false,
   })
+  const [marqueeDuration, setMarqueeDuration] = useState(1)
+  const [marqueeSlowed, setMarqueeSlowed] = useState(false)
 
   const { sectionRefs, currentSection } = useSectionDetection()
   const { scrollY } = useScroll()
@@ -105,7 +107,7 @@ export default function Home() {
         <Image
           width={200}
           height={200}
-          src='/chris.jpg'
+          src='/chris.png'
           alt=''
           priority
           onLoad={handleChrisImageLoad}
@@ -161,8 +163,8 @@ export default function Home() {
                     <Image
                       width={200}
                       height={200}
-                      src='/chris.jpg'
-                      alt='Chris Kruki'
+                      src='/chris.png'
+                      alt='Christoflux'
                       className='rounded-[50%] sm:w-[200px] md:w-[300px] relative'
                       priority
                     />
@@ -171,34 +173,106 @@ export default function Home() {
               </ScreenSection>
 
               <ScreenSection id='about' ref={sectionRefs.about}>
-                <div className='flex items-center justify-center min-h-screen'>
-                  <ContentCard>
-                    <div className='text-center text-white/70'>
-                      <h2 className='text-4xl font-light mb-4'>Who dis</h2>
-                      <p className='text-lg mb-6'>
-                        Wook engineer by night, software engineer by day
-                      </p>
-                      <div className='max-w-2xl mx-auto text-left space-y-4'>
-                        <p className='text-base leading-relaxed'>
-                          {`I rave, flow, mix and make music, and hyperfixate on
-                          random LED + electronics projects. This site is the playground
-                          for that side.`}
+                {(() => {
+                  const aboutCard = (
+                    <ContentCard variant='green'>
+                      <div className='text-white/70'>
+                        <h2 className='text-4xl font-light mb-4 text-center'>
+                          Low latency, high BPM
+                        </h2>
+                        <p className='text-lg mb-4 text-center'>
+                          Hey, I'm Chris Kruki. I like way too many things so
+                          I'll quickly list a few:
                         </p>
-                        <p className='text-base leading-relaxed'>
-                          For the dev side, see{' '}
-                          <Link
-                            href='https://chris.kruki.net'
-                            style={{ color: 'lightgreen' }}
-                            target='_blank'
+                        <div
+                          className='-mx-8 overflow-hidden border-y border-white/15 bg-black/15 py-2'
+                          aria-hidden
+                        >
+                          <div
+                            className='marquee-track flex gap-8 whitespace-nowrap text-white/85 text-base font-medium'
+                            style={{
+                              animationDuration: `${marqueeDuration}s`,
+                            }}
                           >
-                            chris.kruki.net
-                          </Link>
-                          .
-                        </p>
+                            {[...THINGS_I_LIKE, ...THINGS_I_LIKE].map(
+                              (item, i) => (
+                                <span
+                                  key={i}
+                                  className='flex items-center gap-8'
+                                >
+                                  <span>{item}</span>
+                                  <span className='text-white/40'>✦</span>
+                                </span>
+                              )
+                            )}
+                          </div>
+                        </div>
+                        <div className='mt-4 flex justify-center'>
+                          <button
+                            type='button'
+                            onClick={() => {
+                              if (marqueeSlowed) {
+                                setMarqueeDuration(1)
+                                setMarqueeSlowed(false)
+                              } else {
+                                setMarqueeDuration(30)
+                                setMarqueeSlowed(true)
+                              }
+                            }}
+                            className='rounded-md border border-white/30 bg-black/20 px-4 py-2 text-sm font-medium text-white/90 transition hover:bg-black/40 hover:border-white/50 active:scale-95 cursor-pointer'
+                          >
+                            {marqueeSlowed ? 'gas pedal' : 'slow down'}
+                          </button>
+                        </div>
+                      </div>
+                    </ContentCard>
+                  )
+                  return (
+                    <div className='relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen'>
+                      {/* Desktop: full-width widescreen with overlay card */}
+                      <div className='hidden md:block relative w-full'>
+                        <Image
+                          src='/chris_ssbd.jpg'
+                          alt='Chris'
+                          width={3106}
+                          height={1670}
+                          className='w-full h-auto block'
+                          style={{
+                            maskImage:
+                              'linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)',
+                            WebkitMaskImage:
+                              'linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)',
+                          }}
+                        />
+                        <div className='absolute top-0 right-0 w-1/2 h-full flex items-center justify-start px-8 lg:px-16'>
+                          {aboutCard}
+                        </div>
+                      </div>
+
+                      {/* Mobile: sticky photo backdrop, card scrolls up over it */}
+                      <div className='md:hidden relative'>
+                        <div className='sticky top-0 h-[65vh] w-full overflow-hidden'>
+                          <Image
+                            src='/chris_ssbd.jpg'
+                            alt='Chris'
+                            width={3106}
+                            height={1670}
+                            className='w-full h-full object-cover object-left'
+                            style={{
+                              maskImage:
+                                'linear-gradient(to bottom, transparent 0%, black 18%, black 75%, transparent 100%)',
+                              WebkitMaskImage:
+                                'linear-gradient(to bottom, transparent 0%, black 18%, black 75%, transparent 100%)',
+                            }}
+                          />
+                        </div>
+                        <div className='relative z-10 px-4 pt-8 pb-16 flex justify-center'>
+                          {aboutCard}
+                        </div>
                       </div>
                     </div>
-                  </ContentCard>
-                </div>
+                  )
+                })()}
               </ScreenSection>
 
               <ScreenSection id='projects' ref={sectionRefs.projects}>
@@ -230,22 +304,88 @@ export default function Home() {
               </ScreenSection>
 
               <ScreenSection id='contact' ref={sectionRefs.contact}>
-                <div className='flex items-center justify-center min-h-screen'>
-                  <ContentCard>
-                    <div className='text-center text-white/70 space-y-4'>
-                      <h2 className='text-4xl font-light mb-4'>HMU</h2>
-                      <div>
-                        <Link href={'mailto:' + SOCIALS.EMAIL} target='_blank'>
-                          {SOCIALS.EMAIL}
-                        </Link>
-                      </div>
-                      <div>
-                        <Link href={SOCIALS.INSTAGRAM} target='_blank' style={{ color: 'lightgreen' }}>
-                          @christoflux
-                        </Link>
-                      </div>
-                    </div>
-                  </ContentCard>
+                <div className='flex items-center justify-center min-h-screen px-4'>
+                  <div className='w-full max-w-3xl text-center'>
+                    <motion.h2
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.7 }}
+                      className='text-6xl md:text-7xl font-light mb-3 bg-gradient-to-r from-emerald-300 via-green-400 to-teal-300 bg-clip-text text-transparent'
+                    >
+                      HMU
+                    </motion.h2>
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.7, delay: 0.15 }}
+                      className='text-sm font-mono uppercase tracking-[0.3em] text-white/40 mb-12'
+                    >
+                      let&apos;s connect
+                    </motion.p>
+
+                    <motion.div
+                      initial='hidden'
+                      whileInView='show'
+                      viewport={{ once: true, amount: 0.3 }}
+                      variants={{
+                        hidden: {},
+                        show: { transition: { staggerChildren: 0.12 } },
+                      }}
+                      className='flex flex-wrap justify-center gap-6'
+                    >
+                      {[
+                        {
+                          href: 'https://chris.kruki.net',
+                          label: 'Dev Portfolio',
+                          sublabel: 'chris.kruki.net',
+                          accent: '16, 185, 129',
+                          icon: (
+                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' className='h-6 w-6'>
+                              <path d='M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14' strokeLinecap='round' strokeLinejoin='round' />
+                            </svg>
+                          ),
+                        },
+                        {
+                          href: SOCIALS.INSTAGRAM,
+                          label: 'Instagram',
+                          sublabel: '@christoflux',
+                          accent: '232, 121, 249',
+                          icon: (
+                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' className='h-6 w-6'>
+                              <rect x='3' y='3' width='18' height='18' rx='5' />
+                              <circle cx='12' cy='12' r='4' />
+                              <circle cx='17.5' cy='6.5' r='1' fill='currentColor' />
+                            </svg>
+                          ),
+                        },
+                        {
+                          href: `mailto:${SOCIALS.EMAIL}`,
+                          label: 'Email',
+                          sublabel: SOCIALS.EMAIL,
+                          accent: '250, 204, 21',
+                          external: false,
+                          icon: (
+                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1.8' className='h-6 w-6'>
+                              <rect x='3' y='5' width='18' height='14' rx='2' />
+                              <path d='M3 7l9 6 9-6' strokeLinecap='round' strokeLinejoin='round' />
+                            </svg>
+                          ),
+                        },
+                      ].map(item => (
+                        <motion.div
+                          key={item.label}
+                          variants={{
+                            hidden: { opacity: 0, y: 30 },
+                            show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+                          }}
+                        >
+                          <SocialButton {...item} />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </div>
                 </div>
               </ScreenSection>
             </div>

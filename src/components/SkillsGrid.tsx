@@ -93,21 +93,21 @@ export default function SkillsGrid() {
 
       <SkillsSection
         title='Hobbies'
-        subTitle='Misc Hobbies & Activities'
+        subTitle='My stims'
         skills={SKILLS.REC.PHYSICAL}
         delay={0.1}
         onSkillClick={handleSkillClick}
       />
       <SkillsSection
-        title='Hobby Tech'
-        subTitle='Electronics, Manufacturing & Lighting'
+        title='Tech'
+        subTitle='Drives the brr of cool shit'
         skills={SKILLS.REC.HOBBY_TECH}
         delay={0.1}
         onSkillClick={handleSkillClick}
       />
       <SkillsSection
         title='Music'
-        subTitle='Skills & Instruments'
+        subTitle='Soundz I make'
         skills={SKILLS.REC.MUSIC}
         delay={0.1}
         onSkillClick={handleSkillClick}

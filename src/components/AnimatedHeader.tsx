@@ -203,7 +203,7 @@ const AnimatedHeader = ({
                 backgroundRepeat: 'no-repeat',
               }}
             >
-              Chris Kruki
+              Christoflux
             </div>
           </motion.div>
         </motion.div>
@@ -252,7 +252,7 @@ const AnimatedHeader = ({
               width={120}
               isActive={currentSection.name === 'about'}
             >
-              About
+              Who
             </NavBtn>
             <NavBtn
               target='projects'
