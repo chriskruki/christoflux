@@ -1,7 +1,7 @@
-import Image from 'next/image'
+import InstagramEmbed from '@/components/InstagramEmbed'
+import LazyVideo from '@/components/LazyVideo'
 import Link from 'next/link'
 import React from 'react'
-import LazyVideo from '@/components/LazyVideo'
 
 export const PROJECT_CONTENT: Record<string, React.ReactNode> = {
   clockTotem: (

@@ -268,7 +268,7 @@ const AnimatedHeader = ({
               width={120}
               isActive={currentSection.name === 'skills'}
             >
-              Traits
+              Stats
             </NavBtn>
             <NavBtn
               target='contact'
