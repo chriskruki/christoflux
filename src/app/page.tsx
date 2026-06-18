@@ -3,6 +3,7 @@
 import AnimatedHeader from '@/components/AnimatedHeader'
 import Background from '@/components/Background'
 import ContentCard from '@/components/ContentCard'
+import InstagramBadge from '@/components/InstagramBadge'
 import PageLoader from '@/components/PageLoader'
 import ProjectsGrid from '@/components/ProjectsGrid'
 import ScreenSection from '@/components/ScreenSection'
@@ -38,6 +39,10 @@ export default function Home() {
   const imageY = useTransform(scrollY, [0, 1000], [isMobile ? -60 : 0, -100])
   const imageOpacity = useTransform(scrollY, [0, 800], [1, 0])
   const imageFlip = useTransform(scrollY, [0, screenHeight || 1000], [0, 360])
+
+  // Instagram badge fades out on scroll (stays put — does not move into nav)
+  const instaOpacity = useTransform(scrollY, [0, 250], [1, 0])
+  const instaPointer = useTransform(scrollY, v => (v > 200 ? 'none' : 'auto'))
 
   // Update viewport dimensions on resize
   useEffect(() => {
@@ -121,6 +126,21 @@ export default function Home() {
               screenHeight={screenHeight}
             />
 
+            {/* Instagram badge — sits below the nav buttons, fades on scroll */}
+            <motion.div
+              className='fixed left-1/2 top-1/2 z-20'
+              style={{
+                opacity: instaOpacity,
+                pointerEvents: instaPointer,
+                translateX: '-50%',
+                translateY: isMobile
+                  ? 'calc(-50% + 300px)'
+                  : 'calc(-50% + 318px)',
+              }}
+            >
+              <InstagramBadge />
+            </motion.div>
+
             <div className='relative w-full'>
               <ScreenSection id='home' ref={sectionRefs.home}>
                 <div
@@ -183,18 +203,20 @@ export default function Home() {
                           Christof
                           <TypingCycle /> Kruki
                         </h2>
+
                         <p className='text-lg mb-4 text-center'>
-                          I work{' '}
+                          {' '}
                           <Link
                             href='https://chris.kruki.net'
                             target='_blank'
                             className='text-sky-300 hover:text-sky-400 transition-colors duration-300'
                           >
-                            profesionally as a software engineer
-                          </Link>{' '}
-                          but I dabble in 3D printing and LED electronics
-                          projects for fun. <br /> <br /> No yap, here&apos;s a
-                          few things I like:
+                            I stare at a screen for a living
+                          </Link>
+                          , and spend my free time dabbling in 3D printing, LED
+                          and electronics projects {`:D`}
+                          <br />
+                          <br /> No yap, here&apos;s some salt to my pepper:
                         </p>
                         <div
                           className='-mx-8 overflow-hidden border-y border-white/15 bg-black/15 py-2'

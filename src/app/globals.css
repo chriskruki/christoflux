@@ -12,6 +12,15 @@ body {
   background-color: #000;
 }
 
+/* Full-bleed sections use 100vw / -50vw, which include the vertical scrollbar
+   width and overflow by a few px. overflow-x must be set on the root element
+   (not body) and must be `hidden` — `clip` is NOT propagated to the viewport,
+   so it never suppresses the page scrollbar. `hidden` propagates and leaves
+   overflow-y as auto, so vertical scroll and position: sticky keep working. */
+html {
+  overflow-x: hidden;
+}
+
 .gradient {
   background: linear-gradient(
     to bottom,
