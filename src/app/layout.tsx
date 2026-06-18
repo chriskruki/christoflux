@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import './globals.css'
+import { Analytics } from '@vercel/analytics/next'
 import MousePositionProvider from '@/contexts/MousePositionContext'
 
 const nunito = Nunito({
@@ -49,6 +50,7 @@ export default function RootLayout({
         className={`${nunito.variable} antialiased bg-black text-white font-nunito`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   )
